@@ -1,4 +1,5 @@
 using Domain.Models;
+using Infrastructure.EFRepository.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 namespace Infrastructure.EFRepository;
@@ -22,5 +23,11 @@ public class MovieTrackerContext : DbContext
             .Build();
  
         optionsBuilder.UseNpgsql(config.GetConnectionString("DefaultConnection"));
+    }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+ 
+        modelBuilder.ApplyConfiguration(new MovieConfiguration());
     }
 }
