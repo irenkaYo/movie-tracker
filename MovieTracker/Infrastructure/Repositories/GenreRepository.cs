@@ -15,7 +15,8 @@ public class GenreRepository : IGenreRepository
 
     public Genre? GetGenreById(int id)
     {
-        Genre? genre = db.Genres.Find(id);//exception
+        Genre? genre = db.Genres.Find(id);
+        IsNull(genre);
         return genre;
     }
 
@@ -27,8 +28,15 @@ public class GenreRepository : IGenreRepository
 
     public void DeleteGenreById(int id)
     {
-        Genre? genre = db.Genres.Find(id); //exception
+        Genre? genre = db.Genres.Find(id);
+        IsNull(genre);
         db.Genres.Remove(genre);
         db.SaveChanges();
+    }
+    
+    private void IsNull(Genre? movie)
+    {
+        if (movie == null)
+            throw new Exception("Genre not found");
     }
 }

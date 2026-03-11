@@ -16,6 +16,7 @@ public class ActorRepository : IActorRepository
     public Actor? GetActorById(int id)
     {
         Actor? actor = db.Actors.Find(id);
+        IsNull(actor);
         return actor;
     }
 
@@ -28,7 +29,14 @@ public class ActorRepository : IActorRepository
     public void DeleteActorById(int id)
     {
         Actor? actor = db.Actors.Find(id);
+        IsNull(actor);
         db.Actors.Remove(actor);
         db.SaveChanges();
+    }
+    
+    private void IsNull(Actor? movie)
+    {
+        if (movie == null)
+            throw new Exception("Actor not found");
     }
 }
