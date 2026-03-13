@@ -40,4 +40,9 @@ public class GenreRepository : IGenreRepository
         if (genre == null)
             throw new Exception("Genre not found");
     }
+
+    public async Task<bool> GenreExists(Guid id)
+    {
+        return await db.Genres.FindAsync(id) != null;
+    }
 }
