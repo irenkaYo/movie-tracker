@@ -14,20 +14,20 @@ public class ActorRepository : IActorRepository
         return Actors;
     }
 
-    public async Task<Actor?> GetActorById(int id)
+    public async Task<Actor?> GetActorById(Guid id)
     {
         Actor? actor = await db.Actors.FindAsync(id);
         IsNull(actor);
         return actor;
     }
 
-    public void CreateActor(Actor actor)
+    public async void CreateActor(Actor actor)
     {
-        db.Actors.Add(actor);
-        db.SaveChanges();
+        await db.Actors.AddAsync(actor);
+        await db.SaveChangesAsync();
     }
 
-    public async void DeleteActorById(int id)
+    public async void DeleteActorById(Guid id)
     {
         Actor? actor = await db.Actors.FindAsync(id);
         IsNull(actor);
@@ -35,9 +35,9 @@ public class ActorRepository : IActorRepository
         db.SaveChanges();
     }
     
-    private void IsNull(Actor? movie)
+    private void IsNull(Actor? actor)
     {
-        if (movie == null)
+        if (actor == null)
             throw new Exception("Actor not found");
     }
 }

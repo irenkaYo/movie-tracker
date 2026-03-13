@@ -14,7 +14,7 @@ public class GenreRepository : IGenreRepository
         return Genres;
     }
 
-    public async Task<Genre?> GetGenreById(int id)
+    public async Task<Genre?> GetGenreById(Guid id)
     {
         Genre? genre = await db.Genres.FindAsync(id);
         IsNull(genre);
@@ -27,7 +27,7 @@ public class GenreRepository : IGenreRepository
         db.SaveChanges();
     }
 
-    public async void DeleteGenreById(int id)
+    public async void DeleteGenreById(Guid id)
     {
         Genre? genre = await db.Genres.FindAsync(id);
         IsNull(genre);
@@ -35,9 +35,9 @@ public class GenreRepository : IGenreRepository
         db.SaveChanges();
     }
     
-    private void IsNull(Genre? movie)
+    private void IsNull(Genre? genre)
     {
-        if (movie == null)
+        if (genre == null)
             throw new Exception("Genre not found");
     }
 }

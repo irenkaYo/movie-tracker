@@ -14,7 +14,7 @@ public class MovieRepository : IMovieRepository
         return Movies;
     }
 
-    public async Task<Movie?> GetMovieById(int id)
+    public async Task<Movie?> GetMovieById(Guid id)
     {
         Movie? movie = await db.Movies.Include(m => m.Genre)
                                       .FirstOrDefaultAsync(m => m.Id == id);
@@ -22,7 +22,7 @@ public class MovieRepository : IMovieRepository
         return movie;
     }
 
-    public async Task<List<Movie>> GetMoviesByGenreId(int genreId)
+    public async Task<List<Movie>> GetMoviesByGenreId(Guid genreId)
     {
         List<Movie> Movies = await db.Movies.Where(m => m.GenreId == genreId).ToListAsync();
         return Movies;
@@ -34,7 +34,7 @@ public class MovieRepository : IMovieRepository
         db.SaveChanges();
     }
 
-    public async void MarkAsWatched(int id)
+    public async void MarkAsWatched(Guid id)
     {
         Movie? movie = await GetMovieById(id);
         IsNull(movie);
@@ -43,7 +43,7 @@ public class MovieRepository : IMovieRepository
         db.SaveChanges();
     }
 
-    public async void SetRating(int id, int rating)
+    public async void SetRating(Guid id, int rating)
     {
         Movie? movie = await GetMovieById(id);
         IsNull(movie);
@@ -52,7 +52,7 @@ public class MovieRepository : IMovieRepository
         db.SaveChanges();
     }
 
-    public async void DeleteMovieById(int id)
+    public async void DeleteMovieById(Guid id)
     {
         Movie? movie = await GetMovieById(id);
         IsNull(movie);

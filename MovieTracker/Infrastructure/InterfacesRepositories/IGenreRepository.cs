@@ -5,7 +5,7 @@ namespace Infrastructure.InterfacesRepositories;
 public interface IGenreRepository
 {
     public Task<List<Genre>> GetAllGenres();
-    public Task<Genre?> GetGenreById(int id);
+    public Task<Genre?> GetGenreById(Guid id);
     public void CreateGenre(Genre genre);
-    public void DeleteGenreById(int id);
+    public void DeleteGenreById(Guid id);
 }

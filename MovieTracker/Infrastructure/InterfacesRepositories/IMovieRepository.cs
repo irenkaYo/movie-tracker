@@ -5,10 +5,10 @@ namespace Infrastructure.InterfacesRepositories;
 public interface IMovieRepository
 {
     public Task<List<Movie>> GetAllMovies();
-    public Task<Movie?> GetMovieById(int id);
-    public Task<List<Movie>> GetMoviesByGenreId(int genreId);
+    public Task<Movie?> GetMovieById(Guid id);
+    public Task<List<Movie>> GetMoviesByGenreId(Guid genreId);
     public void CreateMovie(Movie movie);
-    public void MarkAsWatched(int id);
-    public void SetRating(int id, int rating);
-    public void DeleteMovieById(int id);
+    public void MarkAsWatched(Guid id);
+    public void SetRating(Guid id, int rating);
+    public void DeleteMovieById(Guid id);
 }
