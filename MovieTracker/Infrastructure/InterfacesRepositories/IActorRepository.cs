@@ -6,6 +6,6 @@ public interface IActorRepository
 {
     public Task<List<Actor>> GetAllActors();
     public Task<Actor?> GetActorById(Guid id);
-    public void CreateActor(Actor actor);
-    public void DeleteActorById(Guid id);
+    public Task CreateActor(Actor actor);
+    public Task DeleteActorById(Guid id);
 }

@@ -21,13 +21,13 @@ public class GenreRepository : IGenreRepository
         return genre;
     }
 
-    public void CreateGenre(Genre genre)
+    public async Task CreateGenre(Genre genre)
     {
-        db.Genres.Add(genre);
-        db.SaveChanges();
+        await db.Genres.AddAsync(genre);
+        await db.SaveChangesAsync();
     }
 
-    public async void DeleteGenreById(Guid id)
+    public async Task DeleteGenreById(Guid id)
     {
         Genre? genre = await db.Genres.FindAsync(id);
         IsNull(genre);

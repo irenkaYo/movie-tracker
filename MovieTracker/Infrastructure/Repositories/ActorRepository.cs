@@ -21,13 +21,13 @@ public class ActorRepository : IActorRepository
         return actor;
     }
 
-    public async void CreateActor(Actor actor)
+    public async Task CreateActor(Actor actor)
     {
         await db.Actors.AddAsync(actor);
         await db.SaveChangesAsync();
     }
 
-    public async void DeleteActorById(Guid id)
+    public async Task DeleteActorById(Guid id)
     {
         Actor? actor = await db.Actors.FindAsync(id);
         IsNull(actor);

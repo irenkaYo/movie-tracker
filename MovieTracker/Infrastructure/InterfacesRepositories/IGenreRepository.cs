@@ -6,6 +6,6 @@ public interface IGenreRepository
 {
     public Task<List<Genre>> GetAllGenres();
     public Task<Genre?> GetGenreById(Guid id);
-    public void CreateGenre(Genre genre);
-    public void DeleteGenreById(Guid id);
+    public Task CreateGenre(Genre genre);
+    public Task DeleteGenreById(Guid id);
 }
