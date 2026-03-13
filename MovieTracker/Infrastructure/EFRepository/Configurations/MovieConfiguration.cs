@@ -11,16 +11,20 @@ public class MovieConfiguration : IEntityTypeConfiguration<Movie>
         builder.ToTable("Movies").Property(m => m.Rating)
                                  .IsRequired(false);
         
+        builder.Property(a => a.Title)
+            .HasMaxLength(30)
+            .IsRequired();
+        
         builder.HasCheckConstraint(
             "CK_Movie_Rating",
             "Rating IS NULL OR (Rating >= 1 AND Rating <= 10)");
         
         builder.HasCheckConstraint(
             "CK_Movie_Year",
-            "Year >= 1000 AND Year <= 2000");
+            "Year >= 1800 AND Year <= 2026");
         
         builder.HasCheckConstraint(
             "CK_Movie_Duration",
-            "DurationMinutes > 0");
+            "DurationMinutes > 0 AND DurationMinutes < 6000");
     }
 }
