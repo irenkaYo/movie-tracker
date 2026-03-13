@@ -29,5 +29,6 @@ public class MovieTrackerContext : DbContext
     {
  
         modelBuilder.ApplyConfiguration(new MovieConfiguration());
+        modelBuilder.ApplyConfiguration(new MovieActorConfiguration());
     }
 }
