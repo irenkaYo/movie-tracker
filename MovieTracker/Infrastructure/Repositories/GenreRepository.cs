@@ -1,21 +1,22 @@
 using Domain.Models;
 using Infrastructure.EFRepository;
 using Infrastructure.InterfacesRepositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
 public class GenreRepository : IGenreRepository
 {
     MovieTrackerContext db  = new MovieTrackerContext();
-    public List<Genre> GetAllGenres()
+    public async Task<List<Genre>> GetAllGenres()
     {
-        List<Genre> Genres = db.Genres.ToList();
+        List<Genre> Genres = await db.Genres.ToListAsync();
         return Genres;
     }
 
-    public Genre? GetGenreById(int id)
+    public async Task<Genre?> GetGenreById(int id)
     {
-        Genre? genre = db.Genres.Find(id);
+        Genre? genre = await db.Genres.FindAsync(id);
         IsNull(genre);
         return genre;
     }
@@ -26,9 +27,9 @@ public class GenreRepository : IGenreRepository
         db.SaveChanges();
     }
 
-    public void DeleteGenreById(int id)
+    public async void DeleteGenreById(int id)
     {
-        Genre? genre = db.Genres.Find(id);
+        Genre? genre = await db.Genres.FindAsync(id);
         IsNull(genre);
         db.Genres.Remove(genre);
         db.SaveChanges();

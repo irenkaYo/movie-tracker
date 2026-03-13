@@ -1,21 +1,22 @@
 using Domain.Models;
 using Infrastructure.EFRepository;
 using Infrastructure.InterfacesRepositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
 public class ActorRepository : IActorRepository
 {
     MovieTrackerContext db =  new MovieTrackerContext();
-    public List<Actor> GetAllActors()
+    public async Task<List<Actor>> GetAllActors()
     {
-        List<Actor> Actors = db.Actors.ToList();
+        List<Actor> Actors = await db.Actors.ToListAsync();
         return Actors;
     }
 
-    public Actor? GetActorById(int id)
+    public async Task<Actor?> GetActorById(int id)
     {
-        Actor? actor = db.Actors.Find(id);
+        Actor? actor = await db.Actors.FindAsync(id);
         IsNull(actor);
         return actor;
     }
@@ -26,9 +27,9 @@ public class ActorRepository : IActorRepository
         db.SaveChanges();
     }
 
-    public void DeleteActorById(int id)
+    public async void DeleteActorById(int id)
     {
-        Actor? actor = db.Actors.Find(id);
+        Actor? actor = await db.Actors.FindAsync(id);
         IsNull(actor);
         db.Actors.Remove(actor);
         db.SaveChanges();
