@@ -32,7 +32,7 @@ public class ActorRepository : IActorRepository
         Actor? actor = await db.Actors.FindAsync(id);
         IsNull(actor);
         db.Actors.Remove(actor);
-        db.SaveChanges();
+        await db.SaveChangesAsync();
     }
     
     private void IsNull(Actor? actor)

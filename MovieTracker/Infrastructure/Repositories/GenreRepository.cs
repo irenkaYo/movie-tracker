@@ -32,7 +32,7 @@ public class GenreRepository : IGenreRepository
         Genre? genre = await db.Genres.FindAsync(id);
         IsNull(genre);
         db.Genres.Remove(genre);
-        db.SaveChanges();
+        await db.SaveChangesAsync();
     }
     
     private void IsNull(Genre? genre)

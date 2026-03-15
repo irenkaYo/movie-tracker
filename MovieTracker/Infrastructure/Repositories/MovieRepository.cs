@@ -40,7 +40,7 @@ public class MovieRepository : IMovieRepository
         IsNull(movie);
         movie.IsWatched = true;
         db.Movies.Update(movie);
-        db.SaveChanges();
+        await db.SaveChangesAsync();
     }
 
     public async Task SetRating(Guid id, int rating)
@@ -49,7 +49,7 @@ public class MovieRepository : IMovieRepository
         IsNull(movie);
         movie.Rating = rating;
         db.Movies.Update(movie);
-        db.SaveChanges();
+        await db.SaveChangesAsync();
     }
 
     public async Task DeleteMovieById(Guid id)
@@ -57,7 +57,7 @@ public class MovieRepository : IMovieRepository
         Movie? movie = await GetMovieById(id);
         IsNull(movie);
         db.Movies.Remove(movie);
-        db.SaveChanges();
+        await db.SaveChangesAsync();
     }
 
     private void IsNull(Movie? movie)
