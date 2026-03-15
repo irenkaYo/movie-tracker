@@ -10,4 +10,15 @@ public class Movie
     public int? Rating { get; set; }
     public Genre Genre { get; set; }
     public Guid GenreId { get; set; }
+    public List<MovieActor> MovieActors { get; set; }
+
+    public Movie(string title, int year, int durationMinutes, Guid genreId)
+    {
+        Id = Guid.NewGuid();
+        Title = title;
+        Year = year;
+        DurationMinutes = durationMinutes;
+        IsWatched = false;
+        GenreId = genreId;
+    }
 }
