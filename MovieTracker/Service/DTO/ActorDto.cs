@@ -14,4 +14,11 @@ public class ActorDto
         BirthYear = birthYear;
         MoviesCount = moviesCount;
     }
+    
+    public ActorDto(Guid id, string name, int birthYear)
+    {
+        Id  = id;
+        Name = name;
+        BirthYear = birthYear;
+    }
 }
