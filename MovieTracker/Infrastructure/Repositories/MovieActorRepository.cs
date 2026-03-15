@@ -12,7 +12,7 @@ public class MovieActorRepository : IMovieActorRepository
     {
         bool isMovieExist = await db.Movies.AnyAsync(x => x.Id == movieId);
         bool isActorExist = await db.Actors.AnyAsync(x => x.Id == actorId);
-        if (!isMovieExist && !isActorExist)
+        if (!isMovieExist || !isActorExist)
             throw new Exception("Movie or Actor doesn't exist");
         bool isActorInMovie = await db.MovieActors.AnyAsync(x => x.MovieId == movieId && x.ActorId == actorId);
         if (!isActorInMovie)
@@ -33,24 +33,18 @@ public class MovieActorRepository : IMovieActorRepository
 
     public async Task<List<Actor>> GetActorsByMovieId(Guid movieId)
     {
-        List<Guid> actorIds = await db.MovieActors
+        List<Actor> actors = await db.MovieActors
             .Where(ma => ma.MovieId == movieId)
-            .Select(ma => ma.ActorId)
-            .ToListAsync();
-        List<Actor> actors = await db.Actors
-            .Where(a => actorIds.Contains(a.Id))
+            .Select(ma => ma.Actor)
             .ToListAsync();
         return actors;
     }
 
     public async Task<List<Movie>> GetMoviesByActorId(Guid actorId)
     {
-        List<Guid> movieIds = await db.MovieActors
+        List<Movie> movies = await db.MovieActors
             .Where(ma => ma.ActorId == actorId)
-            .Select(ma => ma.MovieId)
-            .ToListAsync();
-        List<Movie> movies = await db.Movies
-            .Where(m => movieIds.Contains(m.Id))
+            .Select(ma => ma.Movie)
             .ToListAsync();
         return movies;
     }
