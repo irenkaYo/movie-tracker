@@ -10,24 +10,13 @@ public class MovieTrackerContext : DbContext
     public DbSet<Movie> Movies { get; set; }
     public DbSet<Genre> Genres { get; set; }
     public DbSet<MovieActor> MovieActors { get; set; }
-    public MovieTrackerContext() 
-        : base()
+    public MovieTrackerContext(DbContextOptions<MovieTrackerContext> options)
+        : base(options)
     {
-        Database.EnsureCreated();
-    }
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        var config = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .Build();
- 
-        optionsBuilder.UseNpgsql(config.GetConnectionString("DefaultConnection"));
     }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
- 
         modelBuilder.ApplyConfiguration(new MovieConfiguration());
         modelBuilder.ApplyConfiguration(new ActorConfiguration());
         modelBuilder.ApplyConfiguration(new GenreConfiguration());
