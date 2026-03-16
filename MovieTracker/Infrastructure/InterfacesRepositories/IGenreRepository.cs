@@ -8,4 +8,5 @@ public interface IGenreRepository
     public Task<Genre?> GetGenreById(Guid id);
     public Task CreateGenre(Genre genre);
     public Task DeleteGenreById(Guid id);
+    public Task<bool> GenreExists(Guid id);
 }
