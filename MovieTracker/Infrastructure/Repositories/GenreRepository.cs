@@ -7,7 +7,12 @@ namespace Infrastructure.Repositories;
 
 public class GenreRepository : IGenreRepository
 {
-    MovieTrackerContext db  = new MovieTrackerContext();
+    private readonly MovieTrackerContext db;
+
+    public GenreRepository(MovieTrackerContext context)
+    {
+        db = context;
+    }
     public async Task<List<Genre>> GetAllGenres()
     {
         List<Genre> Genres = await db.Genres.ToListAsync();

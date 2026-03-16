@@ -7,7 +7,13 @@ namespace Infrastructure.Repositories;
 
 public class ActorRepository : IActorRepository
 {
-    MovieTrackerContext db =  new MovieTrackerContext();
+    private readonly MovieTrackerContext db;
+
+    public ActorRepository(MovieTrackerContext context)
+    {
+        db = context;
+    }
+    
     public async Task<List<Actor>> GetAllActors()
     {
         List<Actor> Actors = await db.Actors.ToListAsync();

@@ -7,7 +7,12 @@ namespace Infrastructure.Repositories;
 
 public class MovieActorRepository : IMovieActorRepository
 {
-    MovieTrackerContext db  = new MovieTrackerContext();
+    private readonly MovieTrackerContext db;
+
+    public MovieActorRepository(MovieTrackerContext context)
+    {
+        db = context;
+    }
     public async Task ConnectMovieAndActor(Guid movieId, Guid actorId)
     {
         bool isMovieExist = await db.Movies.AnyAsync(x => x.Id == movieId);

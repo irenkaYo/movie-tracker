@@ -7,7 +7,13 @@ namespace Infrastructure.Repositories;
 
 public class MovieRepository : IMovieRepository
 {
-    MovieTrackerContext db =  new MovieTrackerContext();
+    private readonly MovieTrackerContext db;
+
+    public MovieRepository(MovieTrackerContext context)
+    {
+        db = context;
+    }
+    
     public async Task<List<Movie>> GetAllMovies()
     {
         List<Movie> Movies = await db.Movies.Include(m => m.Genre).ToListAsync();
