@@ -1,15 +1,32 @@
 using Infrastructure.EFRepository;
+using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Service.DTO;
 using Service.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<MovieTrackerContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-GenreService genreService = new GenreService();
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+var DbContextOptionsMoiveTracker = new DbContextOptionsBuilder<MovieTrackerContext>();
+DbContextOptionsMoiveTracker.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+using var dbContext = new MovieTrackerContext(DbContextOptionsMoiveTracker.Options);
+
+GenreRepository genreRepository = new GenreRepository(dbContext);
+MovieRepository movieRepository = new MovieRepository(dbContext);
+ActorRepository actorRepository = new ActorRepository(dbContext);
+MovieActorRepository movieActorRepository = new MovieActorRepository(dbContext);
+
+GenreService genreService = new GenreService(genreRepository, movieRepository);
+MovieService movieService = new MovieService(movieRepository, genreRepository, movieActorRepository);
+ActorService actorService = new ActorService(movieActorRepository, actorRepository);
+MovieActorService movieActorService =  new MovieActorService(movieActorRepository);
 
 app.MapGet("/api/genres", async () =>
 {
@@ -36,8 +53,6 @@ app.MapDelete("/api/genres/{id:guid}", async (Guid id) =>
 });
 
 
-ActorService actorService = new ActorService();
-
 app.MapGet("/api/actors", async () =>
 {
     var actors = await actorService.GetAllActors();
@@ -62,8 +77,6 @@ app.MapDelete("/api/actors/{id:guid}", async (Guid id) =>
     return Results.NoContent();
 });
 
-
-MovieService movieService = new MovieService();
 
 app.MapGet("/api/movies", async () =>
 {
@@ -107,9 +120,6 @@ app.MapDelete("/api/movies/{id:guid}", async  (Guid id) =>
     return Results.NoContent();
 });
 
-
-
-MovieActorService movieActorService = new MovieActorService();
 
 app.MapPost("/api/movies/{movieId:guid}/actors/{actorId:guid}", async (Guid movieId, Guid actorId) =>
 {
