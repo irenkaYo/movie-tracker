@@ -16,15 +16,15 @@ public class MovieConfiguration : IEntityTypeConfiguration<Movie>
             .IsRequired();
         
         builder.HasCheckConstraint(
+            "CK_Movie_DurationMinutes",
+            "\"DurationMinutes\" > 0 AND \"DurationMinutes\" < 6000");
+
+        builder.HasCheckConstraint(
             "CK_Movie_Rating",
-            "Rating IS NULL OR (Rating >= 1 AND Rating <= 10)");
-        
+            "\"Rating\" IS NULL OR (\"Rating\" >= 1 AND \"Rating\" <= 10)");
+
         builder.HasCheckConstraint(
             "CK_Movie_Year",
-            "Year >= 1800 AND Year <= 2026");
-        
-        builder.HasCheckConstraint(
-            "CK_Movie_Duration",
-            "DurationMinutes > 0 AND DurationMinutes < 6000");
+            "\"Year\" >= 1800 AND \"Year\" <= 2026");
     }
 }
