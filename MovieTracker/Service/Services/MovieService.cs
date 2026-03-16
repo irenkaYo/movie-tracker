@@ -38,7 +38,7 @@ public class MovieService
         return movieDtos;
     }
     
-    public async Task CreateMovie(CreateMovieDto createMovieDto)
+    public async Task<MovieDto> CreateMovie(CreateMovieDto createMovieDto)
     {
         if (createMovieDto.Title.Length < 3 || createMovieDto.Title.Length > 30)
             throw new Exception("Title must be between 3 and 30 characters");
@@ -50,6 +50,8 @@ public class MovieService
             throw new Exception("Genre does not exist");
         Movie movie = new Movie(createMovieDto.Title, createMovieDto.Year, createMovieDto.DurationMinutes,  createMovieDto.GenreId);
         await movieRepository.CreateMovie(movie);
+        MovieDto dto = await ConvertMovieToMovieDto(movie);
+        return dto;
     }
     
     public async Task<MovieDto> MarkAsWatched(Guid id)

@@ -30,14 +30,16 @@ public class ActorService
         return dto;
     }
     
-    public async Task CreateActor(CreateActorDto dto)
+    public async Task<ActorDto> CreateActor(CreateActorDto dto)
     {
         if (dto.BirthYear <= 1800 && dto.BirthYear >= 2020)
             throw new Exception("Birth year must be between 1000 and 2000");
         if (dto.Name.Length < 3 || dto.Name.Length > 30)
             throw new Exception("Name must be between 3 and 30 characters");
         Actor actor = new Actor(dto.Name, dto.BirthYear);
+        ActorDto actorDto = await ConvertFromActorToActorDto(actor);
         await actorRepository.CreateActor(actor);
+        return actorDto;
     }
     
     public async Task DeleteActorById(Guid id)
