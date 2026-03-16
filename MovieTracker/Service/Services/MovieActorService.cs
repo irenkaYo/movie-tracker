@@ -1,4 +1,5 @@
 using Domain.Models;
+using Infrastructure.InterfacesRepositories;
 using Infrastructure.Repositories;
 using Service.DTO;
 
@@ -6,7 +7,11 @@ namespace Service.Services;
 
 public class MovieActorService
 {
-    MovieActorRepository movieActorRepository;
+    private readonly IMovieActorRepository movieActorRepository;
+    public MovieActorService(IMovieActorRepository movieActorRepository)
+    {
+        this.movieActorRepository = movieActorRepository;
+    }
     public async Task<string> ConnectMovieAndActor(Guid movieId, Guid actorId)
     {
         try

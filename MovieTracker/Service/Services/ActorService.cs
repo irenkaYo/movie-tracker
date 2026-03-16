@@ -1,4 +1,5 @@
 using Domain.Models;
+using Infrastructure.InterfacesRepositories;
 using Infrastructure.Repositories;
 using Service.DTO;
 
@@ -6,8 +7,14 @@ namespace Service.Services;
 
 public class ActorService
 {
-    ActorRepository actorRepository;
-    MovieActorRepository movieActorRepository;
+    private readonly IActorRepository actorRepository;
+    private readonly IMovieActorRepository movieActorRepository;
+    public ActorService(IMovieActorRepository movieActorRepository, IActorRepository actorRepository)
+    {
+        this.movieActorRepository = movieActorRepository;
+        this.actorRepository = actorRepository;
+    }
+    
     public async Task<List<ActorDto>> GetAllActors()
     {
         List<Actor> actors = await actorRepository.GetAllActors();

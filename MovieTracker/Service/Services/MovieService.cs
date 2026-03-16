@@ -1,4 +1,5 @@
 using Domain.Models;
+using Infrastructure.InterfacesRepositories;
 using Infrastructure.Repositories;
 using Service.DTO;
 
@@ -6,9 +7,17 @@ namespace Service.Services;
 
 public class MovieService
 {
-    MovieRepository movieRepository;
-    GenreRepository genreRepository;
-    MovieActorRepository movieActorRepository;
+    private readonly IMovieRepository movieRepository;
+    private readonly IGenreRepository genreRepository;
+    private readonly IMovieActorRepository movieActorRepository;
+
+    public MovieService(IMovieRepository movieRepository, IGenreRepository genreRepository, IMovieActorRepository movieActorRepository)
+    {
+        this.movieRepository = movieRepository;
+        this.genreRepository = genreRepository;
+        this.movieActorRepository = movieActorRepository;
+    }
+    
     public async Task<List<MovieDto>> GetAllMovies()
     {
         List<Movie> movies = await movieRepository.GetAllMovies();

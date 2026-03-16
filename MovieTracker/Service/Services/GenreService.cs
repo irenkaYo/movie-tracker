@@ -1,4 +1,5 @@
 using Domain.Models;
+using Infrastructure.InterfacesRepositories;
 using Infrastructure.Repositories;
 using Service.DTO;
 
@@ -6,8 +7,13 @@ namespace Service.Services;
 
 public class GenreService
 {
-    GenreRepository genreRepository;
-    MovieRepository movieRepository;
+    private readonly IGenreRepository genreRepository;
+    private readonly IMovieRepository movieRepository;
+    public GenreService(IGenreRepository genreRepository, IMovieRepository movieRepository)
+    {
+        this.genreRepository = genreRepository;
+        this.movieRepository = movieRepository;
+    }
     public async Task<List<GenreDto>> GetAllGenres()
     {
         List<Genre> genres = await genreRepository.GetAllGenres();
@@ -54,13 +60,14 @@ public class GenreService
 
     private async Task<List<GenreDto>> ConvertListToGenreDto(List<Genre> genres)
     {
-        List<GenreDto> GenresDto = new List<GenreDto>();
+        List<GenreDto> genresDto = new List<GenreDto>();
         foreach (Genre genre in genres)
         {
-            int moviesCount = (await movieRepository.GetMoviesByGenreId(genre.Id)).Count;
+            List<Movie> movies = await movieRepository.GetMoviesByGenreId(genre.Id);
+            int moviesCount = movies.Count;
             GenreDto dto = new GenreDto(genre.Id, genre.Name, moviesCount);
-            GenresDto.Add(dto);
+            genresDto.Add(dto);
         }
-        return GenresDto;
+        return genresDto;
     }
 }
