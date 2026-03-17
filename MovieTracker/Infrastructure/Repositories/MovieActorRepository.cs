@@ -20,7 +20,7 @@ public class MovieActorRepository : IMovieActorRepository
         if (!isMovieExist || !isActorExist)
             throw new Exception("Movie or Actor doesn't exist");
         bool isActorInMovie = await db.MovieActors.AnyAsync(x => x.MovieId == movieId && x.ActorId == actorId);
-        if (!isActorInMovie)
+        if (isActorInMovie)
             throw new Exception("Actor already in movie");
         MovieActor movieActor = new MovieActor(movieId, actorId);
         db.MovieActors.Add(movieActor);
