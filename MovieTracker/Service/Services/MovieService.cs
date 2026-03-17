@@ -43,6 +43,8 @@ public class MovieService
     public async Task<List<MovieDto>> GetMoviesByGenreId(Guid genreId)
     {
         List<Movie> movies = await movieRepository.GetMoviesByGenreId(genreId);
+        if (movies.Count == 0)
+            throw new Exception("No movies found");
         List<MovieDto> movieDtos = await ConvertListFromMovieToMovieDto(movies);
         return movieDtos;
     }

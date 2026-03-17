@@ -47,9 +47,6 @@ public class MovieActorRepository : IMovieActorRepository
 
     public async Task<List<Movie>> GetMoviesByActorId(Guid actorId)
     {
-        bool isActorExist = await db.MovieActors.AnyAsync(x => x.ActorId == actorId);
-        if (!isActorExist)
-            throw new Exception("Actor doesn't exist");
         List<Movie> movies = await db.MovieActors
             .Where(ma => ma.ActorId == actorId)
             .Select(ma => ma.Movie)
