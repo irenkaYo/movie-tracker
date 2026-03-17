@@ -40,6 +40,7 @@ public class MovieActorService
     public async Task<List<ActorDto>> GetActorsByMovieId(Guid movieId)
     {
         List<Actor> actors;
+        List<Movie> movies;
         try
         {
             actors = await movieActorRepository.GetActorsByMovieId(movieId);
@@ -51,7 +52,8 @@ public class MovieActorService
         List<ActorDto> actorDtos = new List<ActorDto>();
         foreach (Actor actor in actors)
         {
-            actorDtos.Add(new ActorDto(actor.Id, actor.Name, actor.BirthYear));
+            movies = await movieActorRepository.GetMoviesByActorId(actor.Id);
+            actorDtos.Add(new ActorDto(actor.Id, actor.Name, actor.BirthYear, movies.Count));
         }
         return actorDtos;
     }
