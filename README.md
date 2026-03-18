@@ -1,10 +1,10 @@
 # 🎬 Movie Tracker API
 
-REST API для управления фильмами, жанрами и актёрами.
+A RESTful API for managing movies, genres, and actors.
 
 ---
 
-## 🚀 Стек
+## 🚀 Tech Stack
 
 * ASP.NET Core Minimal API
 * Entity Framework Core
@@ -13,9 +13,9 @@ REST API для управления фильмами, жанрами и акт�
 
 ---
 
-## 📊 База данных
+## 📊 Database Structure
 
-### Сущности
+### Entities
 
 **Genre**
 
@@ -47,14 +47,14 @@ REST API для управления фильмами, жанрами и акт�
 
 ---
 
-## 🔗 Связи
+## 🔗 Relationships
 
 * Genre → Movies (1:M)
 * Movies ↔ Actors (M:M)
 
 ---
 
-## 📦 DTO
+## 📦 DTOs
 
 * GenreDto: Id, Name, MoviesCount
 * MovieDto: Id, Title, Year, DurationMinutes, IsWatched, Rating, GenreName, ActorNames
@@ -102,23 +102,18 @@ REST API для управления фильмами, жанрами и акт�
 
 ---
 
-## ✅ Валидация
+## ✅ Validation Rules
 
-* Rating: 1–10
-* Year: 1000–2100
-* DurationMinutes > 0
-* Нельзя добавлять дубликаты MovieActor
-* Genre и Actor должны существовать
-
+Rating must be between 1 and 10
+Year must be between 1000 and 2100
+DurationMinutes must be greater than 0
+GenreId and ActorId must exist
+Duplicate MovieActor relations are not allowed
 ---
 
-## ⚙️ Требования
+## ⚙️ Requirements
 
 * async/await везде
 * DTO вместо моделей
 * Include для Genre
-* Корректные HTTP статусы
-
----
-
----
+* Корректные HTTP статусы 
