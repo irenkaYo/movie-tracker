@@ -1,119 +1,44 @@
-# 🎬 Movie Tracker API
+Movie Tracker API — a RESTful service for managing movies, genres, and actors.
 
-A RESTful API for managing movies, genres, and actors.
+**Project Description**
+Movie Tracker API is a backend application built with **ASP.NET Core Minimal API** that allows users to manage a collection of movies.
+The application solves the problem of organizing movie data by providing functionality to:
+- store movies with genres and actors
+- track watched status
+- rate movies
+- manage relationships between movies and actors
 
----
+**Technologies**
+- **ASP.NET Core Minimal API** — for simplicity and fast development
+- **Entity Framework Core** — for working with relational data
+- **PostgreSQL (Npgsql)** — as a reliable database
+- **Swagger** — for easy API testing and documentation
 
-## 🚀 Tech Stack
+**Architecture**
+The project follows a clean structure with separation of concerns:
+- **Domain** — entities (Movie, Actor, Genre, MovieActor)
+- **DTOs** — data transfer objects for API responses
+- **Infrastructure (EF Core)** — database context and configuration
+- **API layer** — endpoints using Minimal API
 
-* ASP.NET Core Minimal API
-* Entity Framework Core
-* PostgreSQL (Npgsql)
-* Swagger
+**Key principles:**
+- DTOs are used instead of entities in responses
+- Async/await for all database operations
+- Proper HTTP status codes
 
----
+**Challenges**
+- Implementing a many-to-many relationship (Movie ↔ Actor)
+- Mapping entities to DTOs correctly
+- Handling related data loading (Include / joins)
 
-## 📊 Database Structure
+**Example Endpoints**
+Create a movie - POST /api/movies
+Get all movies - GET /api/movies
+Mark movie as watched - PATCH /api/movies/{id}/watch
+Rate a movie - PATCH /api/movies/{id}/rate?rating=8
+Add actor to movie - POST /api/movies/{movieId}/actors/{actorId}?role=Lead
 
-### Entities
-
-**Genre**
-
-* Id (int, PK)
-* Name (string)
-
-**Movie**
-
-* Id (int, PK)
-* Title (string)
-* Year (int)
-* DurationMinutes (int)
-* IsWatched (bool)
-* Rating (int?, 1–10)
-* GenreId (FK)
-
-**Actor**
-
-* Id (int, PK)
-* Name (string)
-* BirthYear (int)
-
-**MovieActor**
-
-* MovieId (PK, FK)
-* ActorId (PK, FK)
-
-📌 Composite Key: (MovieId, ActorId)
-
----
-
-## 🔗 Relationships
-
-* Genre → Movies (1:M)
-* Movies ↔ Actors (M:M)
-
----
-
-## 📦 DTOs
-
-* GenreDto: Id, Name, MoviesCount
-* MovieDto: Id, Title, Year, DurationMinutes, IsWatched, Rating, GenreName, ActorNames
-* ActorDto: Id, Name, BirthYear, MoviesCount
-
----
-
-## 🌐 Endpoints
-
-### 🎭 Genres
-
-* GET /api/genres
-* GET /api/genres/{id}
-* POST /api/genres
-* DELETE /api/genres/{id}
-
----
-
-### 🎬 Movies
-
-* GET /api/movies
-* GET /api/movies/{id}
-* GET /api/movies/genre/{genreId}
-* POST /api/movies
-* PATCH /api/movies/{id}/watch
-* PATCH /api/movies/{id}/rate
-* DELETE /api/movies/{id}
-
----
-
-### 👤 Actors
-
-* GET /api/actors
-* GET /api/actors/{id}
-* POST /api/actors
-* DELETE /api/actors/{id}
-
----
-
-### 🔗 Movie-Actor
-
-* POST /api/movies/{movieId}/actors/{actorId}
-* DELETE /api/movies/{movieId}/actors/{actorId}
-* GET /api/movies/{movieId}/actors
-
----
-
-## ✅ Validation Rules
-
-Rating must be between 1 and 10
-Year must be between 1000 and 2100
-DurationMinutes must be greater than 0
-GenreId and ActorId must exist
-Duplicate MovieActor relations are not allowed
----
-
-## ⚙️ Requirements
-
-* async/await везде
-* DTO вместо моделей
-* Include для Genre
-* Корректные HTTP статусы 
+**Data Structure**
+The application uses the following relationships:
+- Genre → Movies (1:M)
+- Movies ↔ Actors (M:M via MovieActor)
