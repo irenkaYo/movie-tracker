@@ -16,7 +16,7 @@ app.UseSwaggerUI();
 
 var DbContextOptionsMoiveTracker = new DbContextOptionsBuilder<MovieTrackerContext>();
 DbContextOptionsMoiveTracker.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
-using var dbContext = new MovieTrackerContext(DbContextOptionsMoiveTracker.Options);
+var dbContext = new MovieTrackerContext(DbContextOptionsMoiveTracker.Options);
 
 GenreRepository genreRepository = new GenreRepository(dbContext);
 MovieRepository movieRepository = new MovieRepository(dbContext);
@@ -116,15 +116,15 @@ app.MapPatch("/api/movies/{id:guid}/rate", async (Guid id, int raiting) =>
 
 app.MapDelete("/api/movies/{id:guid}", async  (Guid id) =>
 {
-    await  movieService.DeleteMovieById(id);
+    await movieService.DeleteMovieById(id);
     return Results.NoContent();
 });
 
 
 app.MapPost("/api/movies/{movieId:guid}/actors/{actorId:guid}", async (Guid movieId, Guid actorId) =>
 {
-    var message = await movieActorService.ConnectMovieAndActor(movieId, actorId);
-    return Results.Ok(message);
+    await movieActorService.ConnectMovieAndActor(movieId, actorId);
+    return Results.Ok("Actor added");
 });
 
 app.MapDelete("/api/movies/{movieId:guid}/actors/{actorId:guid}", async (Guid movieId, Guid actorId) =>
