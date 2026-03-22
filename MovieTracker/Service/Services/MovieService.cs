@@ -53,7 +53,7 @@ public class MovieService
     {
         if (createMovieDto.Title.Length < 3 || createMovieDto.Title.Length > 30)
             throw new Exception("Title must be between 3 and 30 characters");
-        if (createMovieDto.Year <= 1800 && createMovieDto.Year > 2027)
+        if (createMovieDto.Year <= 1800 || createMovieDto.Year > 2027)
             throw new Exception("Year must be between 1000 and 2000");
         if (createMovieDto.DurationMinutes < 0 || createMovieDto.DurationMinutes > 60000)
             throw new Exception("Duration must be between 0 and 60000");
