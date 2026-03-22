@@ -40,20 +40,8 @@ public class MovieRepository : IMovieRepository
         await db.SaveChangesAsync();
     }
 
-    public async Task MarkAsWatched(Guid id)
+    public async Task UpdateMovie(Movie movie)
     {
-        Movie? movie = await GetMovieById(id);
-        IsNull(movie);
-        movie.IsWatched = true;
-        db.Movies.Update(movie);
-        await db.SaveChangesAsync();
-    }
-
-    public async Task SetRating(Guid id, int rating)
-    {
-        Movie? movie = await GetMovieById(id);
-        IsNull(movie);
-        movie.Rating = rating;
         db.Movies.Update(movie);
         await db.SaveChangesAsync();
     }

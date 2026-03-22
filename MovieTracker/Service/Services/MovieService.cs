@@ -70,8 +70,9 @@ public class MovieService
         Movie? movie;
         try
         {
-            await movieRepository.MarkAsWatched(id);
             movie = await movieRepository.GetMovieById(id);
+            movie.IsWatched = true;
+            await movieRepository.UpdateMovie(movie);
         }
         catch (Exception e)
         {
@@ -88,8 +89,9 @@ public class MovieService
         Movie? movie;
         try
         {
-            await movieRepository.SetRating(id, rating);
             movie = await movieRepository.GetMovieById(id);
+            movie.Rating = rating;
+            await movieRepository.UpdateMovie(movie);
         }
         catch (Exception e)
         {
