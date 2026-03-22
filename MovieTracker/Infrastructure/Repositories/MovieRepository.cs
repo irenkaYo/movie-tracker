@@ -16,13 +16,18 @@ public class MovieRepository : IMovieRepository
     
     public async Task<List<Movie>> GetAllMovies()
     {
-        List<Movie> Movies = await db.Movies.Include(m => m.Genre).ToListAsync();
+        List<Movie> Movies = await db.Movies.Include(m => m.Genre)
+                                            .Include(a => a.MovieActors)
+                                            .ThenInclude(a => a.Actor)
+                                            .ToListAsync();
         return Movies;
     }
 
     public async Task<Movie?> GetMovieById(Guid id)
     {
         Movie? movie = await db.Movies.Include(m => m.Genre)
+                                      .Include(a => a.MovieActors)
+                                      .ThenInclude(a => a.Actor)
                                       .FirstOrDefaultAsync(m => m.Id == id);
         IsNull(movie);
         return movie;
@@ -30,7 +35,11 @@ public class MovieRepository : IMovieRepository
 
     public async Task<List<Movie>> GetMoviesByGenreId(Guid genreId)
     {
-        List<Movie> Movies = await db.Movies.Where(m => m.GenreId == genreId).ToListAsync();
+        List<Movie> Movies = await db.Movies.Where(m => m.GenreId == genreId)
+                                            .Include(m => m.Genre)
+                                            .Include(a => a.MovieActors)
+                                            .ThenInclude(a => a.Actor)
+                                            .ToListAsync();
         return Movies;
     }
 

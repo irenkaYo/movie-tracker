@@ -59,7 +59,16 @@ public class MovieService
             throw new Exception("Duration must be between 0 and 60000");
         if (!await genreRepository.GenreExists(createMovieDto.GenreId))
             throw new Exception("Genre does not exist");
-        Movie movie = new Movie(createMovieDto.Title, createMovieDto.Year, createMovieDto.DurationMinutes,  createMovieDto.GenreId);
+        Genre? genre;
+        try
+        {
+            genre = await genreRepository.GetGenreById(createMovieDto.GenreId);
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
+        Movie movie = new Movie(createMovieDto.Title, createMovieDto.Year, createMovieDto.DurationMinutes, genre, createMovieDto.GenreId); 
         await movieRepository.CreateMovie(movie);
         MovieDto dto = await ConvertMovieToMovieDto(movie);
         return dto;
@@ -126,8 +135,9 @@ public class MovieService
 
     private async Task<MovieDto> ConvertMovieToMovieDto(Movie movie)
     {
-        List<Actor> actors = await movieActorRepository.GetActorsByMovieId(movie.Id);
-        List<string> actorsNames = actors.Select(x => x.Name).ToList();
+        List<string> actorsNames = movie.MovieActors?
+            .Select(ma => ma.Actor.Name)
+            .ToList() ?? new List<string>();
         MovieDto dto = new MovieDto(movie.Id, movie.Title, movie.Year, movie.DurationMinutes, movie.IsWatched, movie.Rating, movie.Genre.Name, actorsNames);
         return dto;
     }
