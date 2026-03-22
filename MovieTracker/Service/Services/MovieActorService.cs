@@ -12,7 +12,7 @@ public class MovieActorService
     {
         this.movieActorRepository = movieActorRepository;
     }
-    public async Task<string> ConnectMovieAndActor(Guid movieId, Guid actorId)
+    public async Task ConnectMovieAndActor(Guid movieId, Guid actorId)
     {
         try
         {
@@ -22,7 +22,6 @@ public class MovieActorService
         {
             throw e;
         }
-        return "Actor added";
     }
     
     public async Task DisconnectMovieAndActor(Guid movieId, Guid actorId)
