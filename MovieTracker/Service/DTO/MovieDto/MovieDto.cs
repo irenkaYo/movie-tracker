@@ -9,10 +9,10 @@ public class MovieDto
     public bool IsWatched { get; set; }
     public int? Rating { get; set; }
     public string GenreName { get; set; }
-    public List<string> ActorsName { get; set; }
+    public List<string>? ActorsName { get; set; }
 
     public MovieDto(Guid id, string title, int year, int durationMinutes, bool isWatched, int? rating, string genreName,
-        List<string> actorsName)
+        List<string>? actorsName)
     {
         Id = id;
         Title = title;
